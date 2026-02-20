@@ -211,6 +211,7 @@ README.md
 README_EN.md
 LICENSE
 .env.example
+N8N_GUIDE.md
 logs/
 *.log
 test_image.png
