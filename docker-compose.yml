@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  free-api-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: free-api-server
+    ports:
+      - "3897:3897"
+    environment:
+      - SECURE_1PSID=${SECURE_1PSID}
+      - SECURE_1PSIDTS=${SECURE_1PSIDTS}
+      - HOST=0.0.0.0
+      - PORT=3897
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3897/v1/models"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
