@@ -1,0 +1,13 @@
+# Core library dependencies (from pyproject.toml)
+httpx~=0.28.1
+loguru~=0.7.3
+orjson~=3.11.1
+pydantic~=2.12.2
+
+# Server dependencies
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+sse-starlette>=2.2.0
+python-dotenv>=1.0.0
+Pillow>=10.0.0
+numpy>=1.24.0
