@@ -63,11 +63,17 @@ async def get_access_token(
 
     try:
         response, cookies = await send_request(base_cookies, proxy=proxy)
-        match = re.search(r'"SNlM0e":"(.*?)"', response.text)
-        if match:
+        
+        # Try multiple token formats - Google may use different tokens
+        snlm0e = re.search(r'"SNlM0e":"(.*?)"', response.text)
+        cfb2h = re.search(r'"cfb2h":"(.*?)"', response.text)
+        fdrfje = re.search(r'"FdrFJe":"(.*?)"', response.text)
+        
+        if snlm0e or cfb2h or fdrfje:
+            token = snlm0e.group(1) if snlm0e else (cfb2h.group(1) if cfb2h else fdrfje.group(1))
             if verbose:
                 logger.success("Successfully obtained access token.")
-            return match.group(1), cookies
+            return token, cookies
         else:
             raise AuthError("Failed to extract access token from response.")
     except Exception as e:
