@@ -207,8 +207,6 @@ Temporary Items
 cookie_service/
 start.bat
 start.sh
-README.md
-README_EN.md
 LICENSE
 .env.example
 N8N_GUIDE.md
@@ -216,3 +214,7 @@ logs/
 *.log
 test_image.png
 test_watermark.png
+
+# Legacy documentation (archived)
+README.md.bak
+README_EN.md.bak
