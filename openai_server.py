@@ -856,7 +856,6 @@ def build_prompt_from_messages(messages: List[Message], tools: Optional[List[Any
 def get_or_create_session(session_key: Optional[str], model: Model) -> ChatSession:
     """获取或创建会话"""
     global chat_sessions
-    import time
     
     current_time = time.time()
     
@@ -1203,7 +1202,6 @@ async def image_generations(request: ImageRequest, fast_request: Request):
 async def stream_chat_completion(
     request: ChatCompletionRequest, session: ChatSession, prompt: str, model: Model, fast_request: Request, is_new_session: bool = True, files: list[str] = None
 ) -> AsyncGenerator[str, None]:
-    import time
     import json
     
     completion_id = f"chatcmpl-{session.cid or int(time.time())}"
