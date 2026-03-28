@@ -1,6 +1,9 @@
 from enum import Enum, IntEnum, StrEnum
 
 
+TEMPORARY_CHAT_FLAG_INDEX = 45
+
+
 class Endpoint(StrEnum):
     GOOGLE = "https://www.google.com"
     INIT = "https://gemini.google.com/app"
@@ -18,12 +21,16 @@ class GRPC(StrEnum):
     # Chat methods
     LIST_CHATS = "MaZiqc"
     READ_CHAT = "hNvQHb"
+    DELETE_CHAT = "GzXR5e"
 
     # Gem methods
     LIST_GEMS = "CNgdBe"
     CREATE_GEM = "oMH3Zd"
     UPDATE_GEM = "kHv0Vd"
     DELETE_GEM = "UXcSJb"
+
+    # Activity methods
+    BARD_ACTIVITY = "ESY5D"
 
 
 class Headers(Enum):
@@ -32,7 +39,7 @@ class Headers(Enum):
         "Host": "gemini.google.com",
         "Origin": "https://gemini.google.com",
         "Referer": "https://gemini.google.com/",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
         "X-Same-Domain": "1",
     }
     ROTATE_COOKIES = {
@@ -43,24 +50,30 @@ class Headers(Enum):
 
 class Model(Enum):
     UNSPECIFIED = ("unspecified", {}, False)
-    G_3_0_PRO = (
-        "gemini-3.0-pro",
+    G_3_1_PRO = (
+        "gemini-3.1-pro",
         {
-            "x-goog-ext-525001261-jspb": '[1,null,null,null,"9d8ca3786ebdfbea",null,null,0,[4]]'
+            "x-goog-ext-525001261-jspb": '[1,null,null,null,"e6fa609c3fa255c0",null,null,0,[4],null,null,2]',
+            "x-goog-ext-73010989-jspb": "[0]",
+            "x-goog-ext-73010990-jspb": "[0]",
         },
         False,
     )
-    G_2_5_PRO = (
-        "gemini-2.5-pro",
+    G_3_0_FLASH = (
+        "gemini-3.0-flash",
         {
-            "x-goog-ext-525001261-jspb": '[1,null,null,null,"4af6c7f5da75d65d",null,null,0,[4]]'
+            "x-goog-ext-525001261-jspb": '[1,null,null,null,"fbb127bbb056c959",null,null,0,[4],null,null,1]',
+            "x-goog-ext-73010989-jspb": "[0]",
+            "x-goog-ext-73010990-jspb": "[0]",
         },
         False,
     )
-    G_2_5_FLASH = (
-        "gemini-2.5-flash",
+    G_3_0_FLASH_THINKING = (
+        "gemini-3.0-flash-thinking",
         {
-            "x-goog-ext-525001261-jspb": '[1,null,null,null,"9ec249fc9ad08861",null,null,0,[4]]'
+            "x-goog-ext-525001261-jspb": '[1,null,null,null,"5bf011840784117a",null,null,0,[4],null,null,1]',
+            "x-goog-ext-73010989-jspb": "[0]",
+            "x-goog-ext-73010990-jspb": "[0]",
         },
         False,
     )
@@ -72,8 +85,12 @@ class Model(Enum):
 
     @classmethod
     def from_name(cls, name: str):
+        # Legacy name mappings for backward compatibility
+        legacy_names = {"gemini-3.0-pro": "gemini-3.1-pro"}
+        resolved = legacy_names.get(name, name)
+
         for model in cls:
-            if model.model_name == name:
+            if model.model_name == resolved:
                 return model
 
         raise ValueError(

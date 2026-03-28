@@ -1,8 +1,8 @@
 # Core library dependencies (from pyproject.toml)
-httpx~=0.28.1
+httpx[http2]~=0.28.1
 loguru~=0.7.3
-orjson~=3.11.1
-pydantic~=2.12.2
+orjson~=3.11.7
+pydantic~=2.12.5
 
 # Server dependencies
 fastapi>=0.115.0

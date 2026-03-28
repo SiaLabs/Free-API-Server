@@ -437,8 +437,8 @@ async def list_models():
 def map_model(openai_model: str) -> Model:
     model_str = openai_model.lower()
     if "ultra" in model_str or "pro" in model_str:
-        return Model.G_3_0_PRO
-    return Model.G_2_5_FLASH
+        return Model.G_3_1_PRO
+    return Model.G_3_0_FLASH
 
 def estimate_tokens(text: str) -> int:
     return len(text) // 4
@@ -1143,7 +1143,7 @@ async def image_generations(request: ImageRequest, fast_request: Request):
     
     try:
         gen_prompt = f"Generate an image: {request.prompt}"
-        response = await gemini_client.generate_content(gen_prompt, model=Model.G_2_5_FLASH)
+        response = await gemini_client.generate_content(gen_prompt, model=Model.G_3_0_FLASH)
         
         if not response.images:
             raise HTTPException(status_code=400, detail="Gemini failed to generate images.")
